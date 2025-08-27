@@ -89,6 +89,12 @@ class GameServer:
                     self.ball['vx'] *= -1
                     self.sound_event = 'platform_hit'
 
+                if (self.ball['y'] - self.paddles[0] = 20 and self.ball['x'] < 40)
+                    self.ball['vx'] *= -1
+                    self.ball['vy'] *= -1
+                    self.sound_event = 'platform_hit'
+
+
                 if self.ball['x'] < 0:
                     self.scores[1] += 1
                     self.reset_ball()

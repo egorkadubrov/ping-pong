@@ -4,6 +4,7 @@ import json
 from threading import Thread
 
 # ---ПУГАМЕ НАЛАШТУВАННЯ ---
+mixer.init()
 WIDTH, HEIGHT = 800, 600
 init()
 screen = display.set_mode((WIDTH, HEIGHT))
@@ -43,7 +44,9 @@ font_main = font.Font(None, 36)
 # --- ЗОБРАЖЕННЯ ----
 ball_img = transform.scale(image.load("images/ball.png"), (20, 20))
 player1_img = transform.scale(image.load("images/racket1.png"), (20, 100))
+player2_img = transform.scale(image.load("images/racket2.png"), (20, 100))
 # --- ЗВУКИ ---
+sound_effect = mixer.Sound("soundeffect.ogg")
 
 # --- ГРА ---
 game_over = False
@@ -90,8 +93,8 @@ while True:
 
     if game_state:
         screen.fill((30, 30, 30))
+        screen.blit(player2_img, (WIDTH-40, game_state['paddles']['1']))
         screen.blit(player1_img, (20, game_state['paddles']['0']))
-        draw.rect(screen, (255, 0, 255), (WIDTH - 40, game_state['paddles']['1'], 20, 100))
         screen.blit(ball_img, (game_state['ball']['x']-10, game_state['ball']['y']-10))
         score_text = font_main.render(f"{game_state['scores'][0]} : {game_state['scores'][1]}", True, (255, 255, 255))
         screen.blit(score_text, (WIDTH // 2 -25, 20))
@@ -99,6 +102,7 @@ while True:
         if game_state['sound_event']:
             if game_state['sound_event'] == 'wall_hit':
                 # звук відбиття м'ячика від стін
+                sound_effect.play()
                 pass
             if game_state['sound_event'] == 'platform_hit':
                 # звук відбиття м'ячика від платформи
