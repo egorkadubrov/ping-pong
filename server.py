@@ -22,6 +22,8 @@ class GameServer:
         self.reset_game_state()
         self.sound_event = None
 
+        self.collided = False
+
     def reset_game_state(self):
         self.paddles = {0: 250, 1: 250}
         self.scores = [0, 0]
@@ -84,16 +86,31 @@ class GameServer:
                     self.ball['vy'] *= -1
                     self.sound_event = "wall_hit"
 
-                if (self.ball['x'] <= 40 and self.paddles[0] <= self.ball['y'] <= self.paddles[0] + 100) or \
-                   (self.ball['x'] >= WIDTH - 40 and self.paddles[1] <= self.ball['y'] <= self.paddles[1] + 100):
-                    self.ball['vx'] *= -1
-                    self.sound_event = 'platform_hit'
+                if (0 <= self.ball['x'] <= 40) and \
+                    (self.paddles[0] - 3<= self.ball['y'] <= self.paddles[0] + 3):
+                        self.ball['vx'] *= -1
+                        self.ball['vy'] *= -1
+                        self.collided = True
+                        self.sound_event = 'platform_hit'
+                
 
-                if (self.ball['y'] - self.paddles[0] = 20 and self.ball['x'] < 40)
+                if self.collided == False and (self.ball['y'] - self.paddles[0] == 20 or self.ball['y'] == 100 + self.paddles[0]) and self.ball['x'] < 40:
                     self.ball['vx'] *= -1
                     self.ball['vy'] *= -1
+                    self.collided = True
+                    self.sound_event = 'platform_hit'
+                
+
+                if self.collided == False and (self.ball['x'] <= 40 and self.paddles[0] <= self.ball['y'] <= self.paddles[0] + 100) or \
+                   (self.ball['x'] >= WIDTH - 40 and self.paddles[1] <= self.ball['y'] <= self.paddles[1] + 100):
+                    self.ball['vx'] *= -1
+                    self.collided = True
                     self.sound_event = 'platform_hit'
 
+                if 100 < self.ball['x'] < 500:
+                    self.collided = False
+
+                
 
                 if self.ball['x'] < 0:
                     self.scores[1] += 1

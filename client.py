@@ -45,6 +45,7 @@ font_main = font.Font(None, 36)
 ball_img = transform.scale(image.load("images/ball.png"), (20, 20))
 player1_img = transform.scale(image.load("images/racket1.png"), (20, 100))
 player2_img = transform.scale(image.load("images/racket2.png"), (20, 100))
+table = transform.scale(image.load("table.jpg"), (800, 600))
 # --- ЗВУКИ ---
 sound_effect = mixer.Sound("soundeffect.ogg")
 
@@ -92,7 +93,7 @@ while True:
         continue  # Блокує гру після перемоги
 
     if game_state:
-        screen.fill((30, 30, 30))
+        screen.blit(table,(0,0))
         screen.blit(player2_img, (WIDTH-40, game_state['paddles']['1']))
         screen.blit(player1_img, (20, game_state['paddles']['0']))
         screen.blit(ball_img, (game_state['ball']['x']-10, game_state['ball']['y']-10))
